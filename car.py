@@ -3,29 +3,36 @@ import pygame
 from pygame.locals import *
 import math
 
-width = 840
-height = 840
+width = 900
+height = 900
 
 
 pygame.init()
 screen = pygame.display.set_mode((width, height))
 pygame.display.set_caption("My Game")
 clock = pygame.time.Clock()
-bg = pygame.image.load("Untitled-1.png")
-tread = pygame.image.load("cartrail.png")
+bg = pygame.image.load("New Project.png")
 
 velocity_angle = 0
 vel = 0
 car_angle = 0
-size = 20
+size = 30
 bgx = 0
 bgy = 0
 x = 420
 y = 420
 while True:
-    screen.fill((255,255,255))
-    screen.blit(bg, (bg.get_rect()[0] - bgx ,bg.get_rect()[1] - bgy))
 
+    screen.fill((255,255,255))
+    screen.blit(bg, (0 ,bg.get_rect()[1] - bgy))
+    screen.blit(bg, (0 ,bg.get_rect()[1] - bgy - 900))
+    screen.blit(bg, (0 ,bg.get_rect()[1] - bgy - 900 * 2))
+    screen.blit(bg, (0 ,bg.get_rect()[1] - bgy - 900 * 3))
+    screen.blit(bg, (0 ,bg.get_rect()[1] - bgy - 900 * 4))
+
+
+
+    
     pygame.draw.polygon(screen, (0,0,0), [(1.63 * size * math.sin(math.radians(car_angle+34)) + x,1.63 * size * math.cos(math.radians(car_angle+34)) + y),(1.25 * size * math.sin(math.radians(car_angle+47)) + x,1.25 * size * math.cos(math.radians(car_angle+47)) + y),(1.13 * size * math.sin(math.radians(car_angle+41)) + x,1.13 * size * math.cos(math.radians(car_angle+41)) + y),(1.53 * size * math.sin(math.radians(car_angle+28)) + x,1.53 * size * math.cos(math.radians(car_angle+28)) + y)])
     pygame.draw.polygon(screen, (0,0,0), [(1.63 * size * math.sin(math.radians(car_angle-34)) + x,1.63 * size * math.cos(math.radians(car_angle-34)) + y),(1.25 * size * math.sin(math.radians(car_angle-47)) + x,1.25 * size * math.cos(math.radians(car_angle-47)) + y),(1.13 * size * math.sin(math.radians(car_angle-41)) + x,1.13 * size * math.cos(math.radians(car_angle-41)) + y),(1.53 * size * math.sin(math.radians(car_angle-28)) + x,1.53 * size * math.cos(math.radians(car_angle-28)) + y)])
     pygame.draw.polygon(screen, (0,0,0), [(1.25 * size * math.sin(math.radians(car_angle+133)) + x,1.25 * size * math.cos(math.radians(car_angle+133)) + y),(1.63 * size * math.sin(math.radians(car_angle+146)) + x,1.63 * size * math.cos(math.radians(car_angle+146)) + y),(1.56 * size * math.sin(math.radians(car_angle+150)) + x,1.56 * size * math.cos(math.radians(car_angle+150)) + y),(1.15 * size * math.sin(math.radians(car_angle+138)) + x,1.15 * size * math.cos(math.radians(car_angle+138)) + y)])
@@ -40,9 +47,9 @@ while True:
 
     keys = pygame.key.get_pressed()
     if keys[K_LEFT]: 
-        car_angle += vel / 4
+        car_angle += vel / 3
     if keys[K_RIGHT]: 
-        car_angle -= vel / 4
+        car_angle -= vel / 3
     if keys[K_UP]:
         vel += .6
     if keys[K_DOWN]:
@@ -51,7 +58,7 @@ while True:
 
     bgx += vel * math.sin(math.radians(velocity_angle))
     bgy += vel * math.cos(math.radians(velocity_angle))
-    vel *= .96
+    vel *= .95
     velocity_angle += (car_angle - velocity_angle) / 20
 
     # if bgx >= 500 and bgy <= 500:
