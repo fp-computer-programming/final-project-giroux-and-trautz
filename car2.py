@@ -12,7 +12,6 @@ class projectile(object):
         self.lane = lane
         self.color = color
         self.angle = 180
-        
     
     def draw(self):
         pygame.draw.circle(screen, (0,0,0), (self.x,self.y), self.speed)
@@ -65,7 +64,6 @@ bullets = []
 
 while True:
     draw_road()
-
     pygame.draw.polygon(screen, (0,0,0), [(1.63 * size * math.sin(math.radians(car_angle+34)) + x,1.63 * size * math.cos(math.radians(car_angle+34)) + y),(1.25 * size * math.sin(math.radians(car_angle+47)) + x,1.25 * size * math.cos(math.radians(car_angle+47)) + y),(1.13 * size * math.sin(math.radians(car_angle+41)) + x,1.13 * size * math.cos(math.radians(car_angle+41)) + y),(1.53 * size * math.sin(math.radians(car_angle+28)) + x,1.53 * size * math.cos(math.radians(car_angle+28)) + y)])
     pygame.draw.polygon(screen, (0,0,0), [(1.63 * size * math.sin(math.radians(car_angle-34)) + x,1.63 * size * math.cos(math.radians(car_angle-34)) + y),(1.25 * size * math.sin(math.radians(car_angle-47)) + x,1.25 * size * math.cos(math.radians(car_angle-47)) + y),(1.13 * size * math.sin(math.radians(car_angle-41)) + x,1.13 * size * math.cos(math.radians(car_angle-41)) + y),(1.53 * size * math.sin(math.radians(car_angle-28)) + x,1.53 * size * math.cos(math.radians(car_angle-28)) + y)])
     pygame.draw.polygon(screen, (0,0,0), [(1.25 * size * math.sin(math.radians(car_angle+133)) + x,1.25 * size * math.cos(math.radians(car_angle+133)) + y),(1.63 * size * math.sin(math.radians(car_angle+146)) + x,1.63 * size * math.cos(math.radians(car_angle+146)) + y),(1.56 * size * math.sin(math.radians(car_angle+150)) + x,1.56 * size * math.cos(math.radians(car_angle+150)) + y),(1.15 * size * math.sin(math.radians(car_angle+138)) + x,1.15 * size * math.cos(math.radians(car_angle+138)) + y)])
@@ -92,20 +90,26 @@ while True:
         x = 174 
     if x > 727:
         x = 727
+    if y > 820:
+        y = 820
+    if y < 80:
+        y = 80
 
     bgy -= bv
-    bv += .01
+    bv += .05
     x += velx
     velx *= .85
     car_angle = 180 - velx
 
     if timer == 0:
-        bullets.append(projectile(7,random.randint(1,4),(random.randint(0,255),random.randint(0,255),random.randint(0,255))))
-        timer = random.randint(60,240)
+        bullets.append(projectile(bv/3,random.randint(1,4),(random.randint(0,255),random.randint(0,255),random.randint(0,255))))
+        timer = random.randint(30, 120)
     else:
         timer -= 1
 
     for bullet in bullets:
+        if x > bullet.x - 81 and x < bullet.x + 81 and y < bullet.y + 160 and y > bullet.y - 160:
+            pygame.quit()
         bullet.draw()
         bullet.y += bullet.speed
 
