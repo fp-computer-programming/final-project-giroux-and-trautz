@@ -1,4 +1,3 @@
-import sys
 import random
 import pygame
 from pygame.locals import *
@@ -25,7 +24,6 @@ class projectile(object):
 
 
 def draw_road():
-    # screen.blit(road, (0, 0))
     pygame.draw.rect(screen, (21,198,21), (0,0,110,900))
     pygame.draw.rect(screen, (21,198,21), (790,0,110,900))
     pygame.draw.rect(screen, (31,1,54), (136,0,155,900))
@@ -50,7 +48,8 @@ clock = pygame.time.Clock()
 road = pygame.image.load("Road.png")
 lines = pygame.image.load("Lines-Borders.png")
 borders = pygame.image.load("Borders.png")
-
+font1 = pygame.font.Font('freesansbold.ttf', 80)
+font2 = pygame.font.Font('freesansbold.ttf', 60)
 
 size = 40
 x = 450
@@ -61,6 +60,7 @@ bgy = 0
 bv = 10
 timer = 180
 bullets = []
+pts = 0
 
 while True:
     draw_road()
@@ -96,7 +96,7 @@ while True:
         y = 80
 
     bgy -= bv
-    bv += .05
+    bv += .03
     x += velx
     velx *= .85
     car_angle = 180 - velx
@@ -104,20 +104,24 @@ while True:
     if timer == 0:
         bullets.append(projectile(bv/3,random.randint(1,4),(random.randint(0,255),random.randint(0,255),random.randint(0,255))))
         timer = random.randint(30, 120)
+        pts += 1
     else:
         timer -= 1
-
+    
+    score = font1.render("{}".format(pts), True, (255,255,255))
+    screen.blit(score, (10,10))
     for bullet in bullets:
-        if x > bullet.x - 81 and x < bullet.x + 81 and y < bullet.y + 160 and y > bullet.y - 160:
-            pygame.quit()
         bullet.draw()
-        bullet.y += bullet.speed
-
-
-
-
+        if x > bullet.x - 81 and x < bullet.x + 81 and y < bullet.y + 160 and y > bullet.y - 160:
+            urscore = font2.render("Your score is {}".format(pts), True, (255,255,255))
+            screen.blit(urscore, (450 - urscore.get_rect()[2] / 2, 450 - urscore.get_rect()[3] / 2))
+            pygame.display.flip()
+            pygame.time.wait(5000)
+            pygame.quit()
+        if bullet.y < 1200:
+            bullet.y += bullet.speed
+        else:
+            bullets.pop(bullets.index(bullet))
 
     clock.tick(60)
     pygame.display.flip()
-
-pygame.quit() 
